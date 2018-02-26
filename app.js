@@ -23,8 +23,13 @@ app.get("/auth", (req, res)  => {
 
 app.get("/users", (req, res) => {
   const users = [{ "name": "Ajanha" }];
-
-  res.json(users);
+  const user = req.user;
+  
+  if (user && user.role === "admin") { // this is not the correct way to protect the route according to the role based.
+    res.json(users);
+  } else {
+    res.status(401).json({ message: "you canot access this end route"});
+  }
 });
 
 app.listen(5000, (err) => {
